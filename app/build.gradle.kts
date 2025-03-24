@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
+    implementation (libs.androidx.core.splashscreen)
     implementation (libs.androidx.ui.text.google.fonts)
     implementation (libs.navigation.compose)
     // db
@@ -80,6 +80,8 @@ dependencies {
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.client.content.negotiation)
+
+
 
 
 
