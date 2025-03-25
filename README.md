@@ -6,7 +6,7 @@ WEBETU is an innovative mobile application designed to enhance the student exper
 
 ## Images
 
-![WEBETU Logo](.github/assets/app_login_screen.png)
+<img src=".github/assets/app_login_screen.png" alt="Description" width="300" height="700">
 
 ## 🌟 Project Background
 
