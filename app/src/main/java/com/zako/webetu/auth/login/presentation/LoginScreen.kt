@@ -1,25 +1,45 @@
 package com.zako.webetu.auth.login.presentation
 
+import android.provider.CalendarContract.Colors
+import android.widget.EditText
+import android.widget.Space
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.Composable
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -29,60 +49,245 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import com.zako.webetu.R
 import com.zako.webetu.ui.theme.WebetuTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginScreenRoot(modifier: Modifier = Modifier) {
-    LoginScreen()
-    // LoginScreen(modifier = modifier)
+fun LoginScreenRoot() {
+    val loginScreenViewModel = koinViewModel<LoginScreenViewModel>()
+    val state by loginScreenViewModel.state.collectAsState()
+
+    LoginScreen(
+        state = state,
+        onRegistrationNumberChange = { registrationNumber ->
+            loginScreenViewModel.action(
+                LoginScreenActions.RegistrationNumberChange(
+                    registrationNumber
+                )
+            )
+        },
+        onPasswordChange = { password ->
+            loginScreenViewModel.action(LoginScreenActions.PasswordChange(password))
+        },
+        onShowPasswordClicked = {
+            loginScreenViewModel.action(LoginScreenActions.ShowPasswordClicked)
+        },
+        onHidePasswordClicked = {
+            loginScreenViewModel.action(LoginScreenActions.HidePasswordClicked)
+        },
+        onLoginClicked = {
+            loginScreenViewModel.action(LoginScreenActions.LoginClicked)
+        }
+    )
 }
 
 @Composable
 private fun LoginScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    state: LoginScreenState,
+    onRegistrationNumberChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onShowPasswordClicked: () -> Unit,
+    onHidePasswordClicked: () -> Unit,
+    onLoginClicked: () -> Unit,
 ) {
 
-            NetworkSquaresEffect(
-                squaresCount = 9 ,
-                squaresColor = MaterialTheme.colorScheme.background.copy(alpha = 0.05f) ,
-                linesWight = 3f
-            ){
-                Text(
-                    modifier = Modifier.padding(start = 16.dp , top =  64.dp ),
-                    text = "Enterprise Resource",
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = contentColorFor(MaterialTheme.colorScheme.primary),
-                    fontWeight = FontWeight.ExtraBold ,
+    NetworkSquaresEffect(
+        squaresCount = 9,
+        squaresColor = MaterialTheme.colorScheme.background.copy(alpha = 0.05f),
+        linesWight = 3f
+    ) {
+        AnimatedVisibility(
+            visible = state.isLoading
+        ) {
+            LinearProgressIndicator()
+        }
+        HeadLine()
+        Column(
+            modifier = modifier
+                .padding(top = 33.dp)
+                .clip(RoundedCornerShape(16.dp, 16.dp, 0.dp, 0.dp))
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(60.dp))
+            Image(
+                modifier = Modifier
+                    .width(265.dp)
+                    .height(100.dp),
+                painter = painterResource(R.drawable.progress_banner),
+                contentDescription = "progress brand banner",
+            )
+            Spacer(modifier = Modifier.height(68.dp))
+
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .fillMaxWidth()
+                    .padding(bottom = 2.dp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+                text = "Registration Number"
+            )
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .heightIn(min = 48.dp)
+                    .fillMaxWidth(),
+                shape = MaterialTheme.shapes.medium,
+                isError = state.error.isNotBlank(),
+                supportingText = {
+                    if (state.error.isNotBlank()) {
+                        Text(
+                            color = MaterialTheme.colorScheme.error,
+                            text = state.error
+                        )
+                    }
+                },
+                value = state.registrationNumber,
+                onValueChange = onRegistrationNumberChange,
+                textStyle = TextStyle(
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .fillMaxWidth()
+                    .padding(bottom = 2.dp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+                text = "Password"
+            )
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .heightIn(min = 48.dp)
+                    .fillMaxWidth(),
+                isError = state.error.isNotBlank(),
+                supportingText = {
+                    if (state.error.isNotBlank()) {
+                        Text(
+                            color = MaterialTheme.colorScheme.error,
+                            text = state.error
+                        )
+                    }
+                },
+                shape = MaterialTheme.shapes.medium,
+                value = state.password,
+                onValueChange = onPasswordChange,
+                textStyle = TextStyle(
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
+                ),
+                visualTransformation = if (state.isPasswordVisible) VisualTransformation.None else
+                    PasswordVisualTransformation(),
+                suffix = {
+                    Icon(
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .clickable {
+                                if (state.isPasswordVisible) onHidePasswordClicked() else onShowPasswordClicked()
+                            }
+                            .size(24.dp)
+                            ,
+                        painter = painterResource(if (state.isPasswordVisible) R.drawable.eye_open else R.drawable.eye_off),
+                        contentDescription = "password visibility icon",
+                    )
+                }
+
+            )
+
+            Spacer(
+                modifier = Modifier.height(29.dp)
+            )
+
+            Button(
+                enabled = state.registrationNumber.isNotBlank() and state.password.isNotBlank(),
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .heightIn(min = 48.dp)
+                    .fillMaxWidth(),
+                shape = MaterialTheme.shapes.medium,
+                onClick = onLoginClicked
+            ) {
                 Text(
-                    modifier = Modifier.padding(start = 16.dp ),
-                    text = "Planning",
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = contentColorFor(MaterialTheme.colorScheme.primary),
-                    fontWeight = FontWeight.ExtraBold
-                )
-                Text(
-                    modifier = Modifier.padding(start = 16.dp  ),
-                    text = "Student Portal",
+                    text = "Login",
+                    fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = contentColorFor(MaterialTheme.colorScheme.primary),
-                    fontWeight = FontWeight.Bold
                 )
             }
 
+            Spacer(
+                modifier = Modifier.height(21.dp)
+            )
 
+            Text(
+                text = "Ministry of Higher Education and Scientific Research",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = "Copyright 2025",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+
+
+}
+
+
+@Composable
+private fun HeadLine() {
+    Text(
+        modifier = Modifier.padding(start = 16.dp, top = 48.dp),
+        text = "Enterprise Resource",
+        style = MaterialTheme.typography.headlineLarge,
+        color = contentColorFor(MaterialTheme.colorScheme.primary),
+        fontWeight = FontWeight.ExtraBold,
+    )
+    Text(
+        modifier = Modifier.padding(start = 16.dp),
+        text = "Planning",
+        style = MaterialTheme.typography.headlineLarge,
+        color = contentColorFor(MaterialTheme.colorScheme.primary),
+        fontWeight = FontWeight.ExtraBold
+    )
+    Text(
+        modifier = Modifier.padding(start = 16.dp),
+        text = "Student Portal",
+        style = MaterialTheme.typography.bodyLarge,
+        color = contentColorFor(MaterialTheme.colorScheme.primary),
+        fontWeight = FontWeight.Bold
+    )
 }
 
 
 @Composable
 private fun NetworkSquaresEffect(
     modifier: Modifier = Modifier,
-    squaresCount : Int ,
+    squaresCount: Int,
     squaresColor: Color,
-    linesWight: Float ,
+    linesWight: Float,
     content: @Composable ColumnScope.() -> Unit
 ) {
 
@@ -94,8 +299,8 @@ private fun NetworkSquaresEffect(
         Image(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .size(200.dp ),
-            painter = painterResource(R.drawable.light_login_effect) ,
+                .size(200.dp),
+            painter = painterResource(R.drawable.light_login_effect),
             contentDescription = null
         )
         Canvas(modifier = Modifier.fillMaxSize()) {

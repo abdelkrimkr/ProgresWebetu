@@ -8,6 +8,8 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.zako.webetu.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 fun Context.getActivity(): Activity? = when (this) {
@@ -33,6 +35,15 @@ fun Context.shortToast(message: String) {
         message,
         Toast.LENGTH_SHORT
     ).show()
+}
+suspend fun Context.shortIoToast(message: String) {
+    withContext(Dispatchers.Main.immediate) {
+        Toast.makeText(
+            this@shortIoToast,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 }
 
 fun Context.shareIntent(message : String){
