@@ -41,12 +41,13 @@ The primary goal of WEBETU is to simplify and streamline the student experience 
 ## 🤝 Contributing
 
 We welcome contributions, especially from:
-- Mid-Junior Developers
 - Those familiar with the following technologies:
     - Kotlin
     - Android Development
     - Jetpack Compose
-    - MVVM Architecture
+    - MVVM / MVI Architecture
+  
+Read the [CONTRIBUTING FILE](CONTRIBUTING.md)
 
 
 ## 📝 License
