@@ -10,14 +10,17 @@ WEBETU is an innovative mobile application designed to enhance the student exper
 
 ## 🌟 Project Background
 
-- **Origin**: Unofficial project developed independently
-- **API Source**: API shared by the Progress Team during CodingMaster'2024
-- **Design Team**: Carefully crafted by an exceptional team of five students:
+- **Origin**: **Unofficial** project developed independently
+- **API Source**: API shared by the Progress Team during CodingMaster'2024 [Link](https://drive.google.com/drive/folders/1jKoRtWpRwU-Bl6LZaobi8KYYIeCd8hBK?lfhs=2) 
+- **Design Team**:  Carefully crafted by an exceptional team of five students:
     - Hadjer Ben
     - Abderaouf Benamirouche
     - Maria Bezzaz
     - Souad Tayebi
     - Sara Myriam Kerrouche
+[FIGMA PROJECT](https://www.figma.com/design/K5gUNM2cb1mkXVTHC4zEh6/progress-redesign?node-id=102-4754&t=zrPI5c1aClRuBHPh-1)
+
+
 
 
 ## 🚀 Technical Specifications
