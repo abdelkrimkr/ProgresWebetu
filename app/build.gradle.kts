@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.google.devtools.ksp)
     kotlin("plugin.serialization") version "2.1.0"
 
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
