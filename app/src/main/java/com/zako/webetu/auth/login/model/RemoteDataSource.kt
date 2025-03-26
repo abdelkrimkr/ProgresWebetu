@@ -11,6 +11,5 @@ interface RemoteDataSource {
      * @return Either<AppError , LoginResponse> the response of the login or the error
      *
      */
-    suspend fun login(registrationNumber: String, password: String): Either<AppError , LoginResponse>
-
+    suspend fun login(registrationNumber: String, password: String): Either<AppError, LoginResponse>
 }

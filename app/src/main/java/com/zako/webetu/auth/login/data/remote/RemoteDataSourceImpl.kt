@@ -22,25 +22,25 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 class RemoteDataSourceImpl(
-    private val client : HttpClient
-)  : RemoteDataSource{
+    private val client: HttpClient
+) : RemoteDataSource {
 
     override suspend fun login(
         registrationNumber: String,
         password: String
     ): Either<AppError, LoginResponse> {
         return client.safeCall {
-            val url =  LoginConstants.LOGIN_ENDPOINT
+            val url = LoginConstants.LOGIN_ENDPOINT
             val body = LoginRequestBody(
-                username = registrationNumber ,
+                username = registrationNumber,
                 password = password
             )
-            post(urlString = url){
+            post(urlString = url) {
                 contentType(ContentType.Application.Json)
                 setBody(body)
             }
-        }.flatMap { response : HttpResponse ->
-            when(response.status.value){
+        }.flatMap { response: HttpResponse ->
+            when (response.status.value) {
                 200 -> {
                     response.parseResponse<LoginResponse>()
                 }
@@ -51,7 +51,7 @@ class RemoteDataSourceImpl(
                 }
                 else -> {
                     ConnectionErrors.ServerErrorException(
-                        error = null ,
+                        error = null,
                         errorMessage = BaseString.DynamicString(
                             response.bodyAsText()
                         )

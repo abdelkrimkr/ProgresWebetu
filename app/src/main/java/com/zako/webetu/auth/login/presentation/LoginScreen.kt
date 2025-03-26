@@ -62,13 +62,13 @@ fun LoginScreenRoot() {
         onPasswordChange = { password ->
             loginScreenViewModel.action(LoginScreenActions.PasswordChange(password))
         },
-        onShowPasswordClicked = {
+        onShowPasswordClick = {
             loginScreenViewModel.action(LoginScreenActions.ShowPasswordClicked)
         },
-        onHidePasswordClicked = {
+        onHidePasswordClick = {
             loginScreenViewModel.action(LoginScreenActions.HidePasswordClicked)
         },
-        onLoginClicked = {
+        onLoginClick = {
             loginScreenViewModel.action(LoginScreenActions.LoginClicked)
         }
     )
@@ -76,19 +76,19 @@ fun LoginScreenRoot() {
 
 @Composable
 private fun LoginScreen(
-    modifier: Modifier = Modifier,
     state: LoginScreenState,
     onRegistrationNumberChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onShowPasswordClicked: () -> Unit,
-    onHidePasswordClicked: () -> Unit,
-    onLoginClicked: () -> Unit,
+    onShowPasswordClick: () -> Unit,
+    onHidePasswordClick: () -> Unit,
+    onLoginClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-
     NetworkSquaresEffect(
         squaresCount = 9,
         squaresColor = MaterialTheme.colorScheme.background.copy(alpha = 0.05f),
-        linesWight = 3f
+        linesWight = 3f,
+        modifier = modifier
     ) {
         AnimatedVisibility(
             visible = state.isLoading
@@ -97,7 +97,7 @@ private fun LoginScreen(
         }
         HeadLine()
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .padding(top = 33.dp)
                 .clip(RoundedCornerShape(16.dp, 16.dp, 0.dp, 0.dp))
                 .fillMaxSize()
@@ -183,17 +183,26 @@ private fun LoginScreen(
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onSurface
                 ),
-                visualTransformation = if (state.isPasswordVisible) VisualTransformation.None else
-                    PasswordVisualTransformation(),
+                visualTransformation = if (state.isPasswordVisible) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
                 suffix = {
                     Icon(
                         modifier = Modifier
                             .clip(CircleShape)
                             .clickable {
-                                if (state.isPasswordVisible) onHidePasswordClicked() else onShowPasswordClicked()
+                                if (state.isPasswordVisible) {
+                                    onHidePasswordClick()
+                                } else {
+                                    onShowPasswordClick()
+                                }
                             }
                             .size(24.dp),
-                        painter = painterResource(if (state.isPasswordVisible) R.drawable.eye_open else R.drawable.eye_off),
+                        painter = painterResource(
+                            if (state.isPasswordVisible) R.drawable.eye_open else R.drawable.eye_off
+                        ),
                         contentDescription = stringResource(R.string.password_visibility_icon),
                     )
                 }
@@ -211,7 +220,7 @@ private fun LoginScreen(
                     .heightIn(min = 48.dp)
                     .fillMaxWidth(),
                 shape = MaterialTheme.shapes.medium,
-                onClick = onLoginClicked
+                onClick = onLoginClick
             ) {
                 Text(
                     text = stringResource(R.string.login),
@@ -236,48 +245,45 @@ private fun LoginScreen(
             )
         }
     }
-
-
 }
-
 
 @Composable
 private fun HeadLine() {
-    Text(
-        modifier = Modifier.padding(start = 16.dp, top = 48.dp),
-        text = stringResource(R.string.enterprise_resource),
-        style = MaterialTheme.typography.headlineLarge,
-        color = contentColorFor(MaterialTheme.colorScheme.primary),
-        fontWeight = FontWeight.ExtraBold,
-    )
-    Text(
-        modifier = Modifier.padding(start = 16.dp),
-        text = stringResource(R.string.planning),
-        style = MaterialTheme.typography.headlineLarge,
-        color = contentColorFor(MaterialTheme.colorScheme.primary),
-        fontWeight = FontWeight.ExtraBold
-    )
-    Text(
-        modifier = Modifier.padding(start = 16.dp),
-        text = stringResource(R.string.student_portal),
-        style = MaterialTheme.typography.bodyLarge,
-        color = contentColorFor(MaterialTheme.colorScheme.primary),
-        fontWeight = FontWeight.Bold
-    )
+    Column {
+        Text(
+            modifier = Modifier.padding(start = 16.dp, top = 48.dp),
+            text = stringResource(R.string.enterprise_resource),
+            style = MaterialTheme.typography.headlineLarge,
+            color = contentColorFor(MaterialTheme.colorScheme.primary),
+            fontWeight = FontWeight.ExtraBold,
+        )
+        Text(
+            modifier = Modifier.padding(start = 16.dp),
+            text = stringResource(R.string.planning),
+            style = MaterialTheme.typography.headlineLarge,
+            color = contentColorFor(MaterialTheme.colorScheme.primary),
+            fontWeight = FontWeight.ExtraBold
+        )
+        Text(
+            modifier = Modifier.padding(start = 16.dp),
+            text = stringResource(R.string.student_portal),
+            style = MaterialTheme.typography.bodyLarge,
+            color = contentColorFor(MaterialTheme.colorScheme.primary),
+            fontWeight = FontWeight.Bold
+        )
+    }
 }
-
 
 @Composable
 private fun NetworkSquaresEffect(
-    modifier: Modifier = Modifier,
     squaresCount: Int,
     squaresColor: Color,
     linesWight: Float,
+    modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
-
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
     ) {
@@ -294,10 +300,8 @@ private fun NetworkSquaresEffect(
 
             val squaresSize = canvasWidth / squaresCount
 
-
             val horizontalSquaresCount = canvasWidth / squaresSize
             val verticalSquaresCount = canvasHeight / horizontalSquaresCount
-
 
             // Draw horizontal lines
             for (i in 0..horizontalSquaresCount.toInt()) {
@@ -311,8 +315,7 @@ private fun NetworkSquaresEffect(
                 )
             }
 
-
-            //Draw vertical lines
+            // Draw vertical lines
             for (i in 0..verticalSquaresCount.toInt()) {
                 val y = i * squaresSize
 
@@ -323,11 +326,9 @@ private fun NetworkSquaresEffect(
                     strokeWidth = linesWight
                 )
             }
-
-
         }
         Column(
-            modifier = modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             content()
         }

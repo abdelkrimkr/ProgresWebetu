@@ -19,5 +19,4 @@ class TestKoinModules : KoinTest {
         )
         loginModule.verify()
     }
-
 }
