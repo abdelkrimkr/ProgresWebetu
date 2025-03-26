@@ -1,17 +1,29 @@
 # WEBETU: Mobile Student Portal for Algerian Universities
 
+
+# ```THIS PROJECT IS NOT OFFICIAL FROM THE GOVERNMENT, HAS NO RELATION TO THE PROGRESS TEAM, AND WE DO NOT PLAN TO TAKE ANY RESPONSIBILITY FOR ITS USAGE.```
+
 ## 🎓 Project Overview
 
 WEBETU is an innovative mobile application designed to enhance the student experience in Algerian universities. This comprehensive student portal serves as a centralized platform, bringing together essential services and information crucial for student life.
 
-## Images
+## Images Overview
 
-<img src=".github/assets/app_login_screen.png" alt="Description" width="300" height="700">
+<img src=".github/assets/Screenshot%202025-03-26%20190318.png" alt="Description" >
+<img src=".github/assets/Screenshot%202025-03-26%20190329.png" alt="Description" >
+<img src=".github/assets/Screenshot%202025-03-26%20190344.png" alt="Description" >
+<img src=".github/assets/Screenshot%202025-03-26%20190356.png" alt="Description" >
+<img src=".github/assets/Screenshot%202025-03-26%20190404.png" alt="Description" >
+<img src=".github/assets/Screenshot%202025-03-26%20190509.png" alt="Description" >
+<img src=".github/assets/Screenshot%202025-03-26%20190531.png" alt="Description" >
+
+
+
 
 ## 🌟 Project Background
 
 - **Origin**: **Unofficial** project developed independently
-- **API Source**: API shared by the Progress Team during CodingMaster'2024 [Link](https://drive.google.com/drive/folders/1jKoRtWpRwU-Bl6LZaobi8KYYIeCd8hBK?lfhs=2) 
+- **API Source**: API shared by the Progress Team during CodingMaster'2024 [HERE](https://drive.google.com/drive/folders/1jKoRtWpRwU-Bl6LZaobi8KYYIeCd8hBK?lfhs=2) 
 - **Design Team**:  Carefully crafted by an exceptional team of five students:
     - Hadjer Ben
     - Abderaouf Benamirouche
@@ -33,6 +45,7 @@ WEBETU is an innovative mobile application designed to enhance the student exper
     - Presentation Layer
     - Data Layer
     - Domain ( Model Layer )
+
 
 ## ℹ️ Purpose
 
