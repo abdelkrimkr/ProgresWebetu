@@ -11,7 +11,6 @@ import com.zako.webetu.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-
 fun Context.getActivity(): Activity? = when (this) {
     is ComponentActivity -> this
     is ContextWrapper -> baseContext.getActivity()
@@ -19,13 +18,13 @@ fun Context.getActivity(): Activity? = when (this) {
 }
 
 fun Context.openLink(
-    link : String
-){
-    try {
+    link: String
+) {
+    runCatching {
         val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
-        this.startActivity(webIntent)
-    } catch (e: Exception) {
-       this.shortToast(this.getString(R.string.error_opening_the_link))
+        startActivity(webIntent)
+    }.onFailure {
+        shortToast(getString(R.string.error_opening_the_link))
     }
 }
 
@@ -46,7 +45,7 @@ suspend fun Context.shortIoToast(message: String) {
     }
 }
 
-fun Context.shareIntent(message : String){
+fun Context.shareIntent(message: String) {
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TEXT, message)

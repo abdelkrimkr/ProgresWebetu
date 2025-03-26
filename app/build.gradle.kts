@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.devtools.ksp)
-    kotlin("plugin.serialization") version "2.1.0"
-
+    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -31,11 +31,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -59,14 +59,14 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation (libs.androidx.core.splashscreen)
-    implementation (libs.androidx.ui.text.google.fonts)
-    implementation (libs.navigation.compose)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.navigation.compose)
     // db
-    implementation (libs.room)
+    implementation(libs.room)
     ksp(libs.room.compiler)
-    implementation (libs.room.ktx)
-    implementation (libs.androidx.datastore)
+    implementation(libs.room.ktx)
+    implementation(libs.androidx.datastore)
     // utils
     implementation(libs.arrow.core)
     implementation(libs.arrow.fx.coroutines)
@@ -88,11 +88,15 @@ dependencies {
     implementation(libs.ktor.serialization.kotlinx.json)
     testImplementation(libs.ktor.client.mock)
 
+    // detekt
+    implementation(libs.detekt.gradle.plugin)
+    detektPlugins(libs.detekt.rules.compose)
+    detektPlugins(libs.detekt.formatter)
+}
 
-
-
-
-
-
-
+detekt {
+    parallel = true
+    allRules = false
+    buildUponDefaultConfig = true
+    config.setFrom("$rootDir/config/detekt/detekt.yml")
 }

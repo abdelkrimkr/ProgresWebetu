@@ -15,7 +15,7 @@ import com.zako.webetu.ui.theme.WebetuTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
             WebetuTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavigationHost(
-                        modifier = Modifier.padding(innerPadding)  ,
+                        modifier = Modifier.padding(innerPadding),
                         rootNavController = rootNavController
                     )
                 }

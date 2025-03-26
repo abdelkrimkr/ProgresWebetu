@@ -8,15 +8,14 @@ import com.zako.webetu.navigation.model.Login
 
 @Composable
 fun NavigationHost(
-    modifier: Modifier = Modifier ,
-    rootNavController: NavHostController
+    rootNavController: NavHostController,
+    modifier: Modifier = Modifier,
 ) {
-
     NavHost(
-        modifier = modifier ,
-        startDestination = Login ,
+        modifier = modifier,
+        startDestination = Login,
         navController = rootNavController
-    ){
-        loginGraph(rootNavController)
+    ) {
+        loginGraph()
     }
 }

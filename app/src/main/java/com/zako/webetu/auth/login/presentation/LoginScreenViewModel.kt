@@ -17,7 +17,7 @@ import org.koin.core.component.get
 
 class LoginScreenViewModel(
     private val remote: RemoteDataSource
-) : ViewModel() , KoinComponent {
+) : ViewModel(), KoinComponent {
 
     private val _state = MutableStateFlow(LoginScreenState())
     val state = _state.asStateFlow()
@@ -42,7 +42,7 @@ class LoginScreenViewModel(
 
             is LoginScreenActions.LoginClicked -> {
                 login(
-                    _state.value.registrationNumber ,
+                    _state.value.registrationNumber,
                     _state.value.password
                 )
             }
@@ -53,10 +53,9 @@ class LoginScreenViewModel(
         registrationNumber: String,
         password: String
     ) {
+        val context: Context = get()
 
-        val context : Context = get()
-
-        if (registrationNumber.isBlank() or password.isBlank()){
+        if (registrationNumber.isBlank() or password.isBlank()) {
             context.shortToast("please fill all the fields !")
         }
         viewModelScope.launch(Dispatchers.IO) {
@@ -88,11 +87,6 @@ class LoginScreenViewModel(
                     isLoading = false
                 )
             }
-
         }
-
-
     }
-
-
 }

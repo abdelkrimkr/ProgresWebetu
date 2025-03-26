@@ -1,0 +1,29 @@
+complexity:
+  LongParameterList:
+    ignoreDefaultParameters: true
+    ignoreAnnotated:
+      - "Composable"
+  LongMethod:
+    ignoreAnnotated:
+      - "Composable"
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated:
+      - "Composable"
+      - "Preview"
+  MatchingDeclarationName:
+    active: false
+  PackageNaming:
+    active: false
+
+style:
+  MagicNumber:
+    active: false
+  UnusedPrivateMember:
+    ignoreAnnotated:
+      - "Preview"
+
+formatting:
+  Indentation:
+    indentSize: 4
