@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.zako.webetu.navigation.model.Login
 import com.zako.webetu.navigation.presentation.NavigationHost
 import com.zako.webetu.ui.theme.WebetuTheme
 

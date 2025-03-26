@@ -1,11 +1,6 @@
 package com.zako.webetu.auth.login.presentation
 
-import android.provider.CalendarContract.Colors
-import android.widget.EditText
-import android.widget.Space
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.runtime.Composable
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,44 +14,35 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.contentColorFor
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import com.zako.webetu.R
-import com.zako.webetu.ui.theme.WebetuTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -125,7 +111,7 @@ private fun LoginScreen(
                     .width(265.dp)
                     .height(100.dp),
                 painter = painterResource(R.drawable.progress_banner),
-                contentDescription = "progress brand banner",
+                contentDescription = stringResource(R.string.progress_brand_banner),
             )
             Spacer(modifier = Modifier.height(68.dp))
 
@@ -137,7 +123,7 @@ private fun LoginScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold,
-                text = "Registration Number"
+                text = stringResource(R.string.registration_number)
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -173,7 +159,7 @@ private fun LoginScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold,
-                text = "Password"
+                text = stringResource(R.string.password)
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -206,10 +192,9 @@ private fun LoginScreen(
                             .clickable {
                                 if (state.isPasswordVisible) onHidePasswordClicked() else onShowPasswordClicked()
                             }
-                            .size(24.dp)
-                            ,
+                            .size(24.dp),
                         painter = painterResource(if (state.isPasswordVisible) R.drawable.eye_open else R.drawable.eye_off),
-                        contentDescription = "password visibility icon",
+                        contentDescription = stringResource(R.string.password_visibility_icon),
                     )
                 }
 
@@ -229,7 +214,7 @@ private fun LoginScreen(
                 onClick = onLoginClicked
             ) {
                 Text(
-                    text = "Login",
+                    text = stringResource(R.string.login),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.bodyLarge,
                 )
@@ -240,12 +225,12 @@ private fun LoginScreen(
             )
 
             Text(
-                text = "Ministry of Higher Education and Scientific Research",
+                text = stringResource(R.string.ministry_of_higher_education_and_scientific_research),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "Copyright 2025",
+                text = stringResource(R.string.copyright_2025),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -260,21 +245,21 @@ private fun LoginScreen(
 private fun HeadLine() {
     Text(
         modifier = Modifier.padding(start = 16.dp, top = 48.dp),
-        text = "Enterprise Resource",
+        text = stringResource(R.string.enterprise_resource),
         style = MaterialTheme.typography.headlineLarge,
         color = contentColorFor(MaterialTheme.colorScheme.primary),
         fontWeight = FontWeight.ExtraBold,
     )
     Text(
         modifier = Modifier.padding(start = 16.dp),
-        text = "Planning",
+        text = stringResource(R.string.planning),
         style = MaterialTheme.typography.headlineLarge,
         color = contentColorFor(MaterialTheme.colorScheme.primary),
         fontWeight = FontWeight.ExtraBold
     )
     Text(
         modifier = Modifier.padding(start = 16.dp),
-        text = "Student Portal",
+        text = stringResource(R.string.student_portal),
         style = MaterialTheme.typography.bodyLarge,
         color = contentColorFor(MaterialTheme.colorScheme.primary),
         fontWeight = FontWeight.Bold

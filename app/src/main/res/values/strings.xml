@@ -18,6 +18,16 @@
     <string name="data_processing_error">Data Processing Error</string>
     <string name="data_serialization_error">Data Serialization Error</string>
     <string name="error_opening_the_link">Error Occurred When Opening Link</string>
+    <string name="enterprise_resource">Enterprise Resource</string>
+    <string name="planning">Planning</string>
+    <string name="student_portal">Student Portal</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="ministry_of_higher_education_and_scientific_research">Ministry of Higher Education and Scientific Research</string>
+    <string name="copyright_2025">Copyright 2025</string>
+    <string name="password_visibility_icon">password visibility icon</string>
+    <string name="progress_brand_banner">progress brand banner</string>
 
 
 </resources>

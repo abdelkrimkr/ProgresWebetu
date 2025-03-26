@@ -10,7 +10,6 @@ import com.zako.webetu.auth.login.model.RemoteDataSource
 import com.zako.webetu.errors.AppError
 import com.zako.webetu.errors.AuthenticationErrors
 import com.zako.webetu.errors.ConnectionErrors
-import com.zako.webetu.errors.UnknownError
 import com.zako.webetu.utils.BaseString
 import com.zako.webetu.utils.parseResponse
 import com.zako.webetu.utils.safeCall
@@ -20,7 +19,6 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
-import io.ktor.http.cio.Response
 import io.ktor.http.contentType
 
 class RemoteDataSourceImpl(
