@@ -19,6 +19,7 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 
 class RemoteDataSourceImpl(
@@ -41,10 +42,10 @@ class RemoteDataSourceImpl(
             }
         }.flatMap { response: HttpResponse ->
             when (response.status.value) {
-                200 -> {
+                HttpStatusCode.OK.value -> {
                     response.parseResponse<LoginResponse>()
                 }
-                403 -> {
+                HttpStatusCode.Forbidden.value -> {
                     AuthenticationErrors.AuthenticationException(
                         error = null
                     ).left()

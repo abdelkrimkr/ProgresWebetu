@@ -76,7 +76,9 @@ Read the [CONTRIBUTING FILE](CONTRIBUTING.md)
 ## 👥 Contact
 
 Connect with us on Instagram:
-[Zakaria Bouchantouf's Instagram](https://www.instagram.com/bouchantoufzakaria/)
+[Zakaria Bouchentouf Instagram](https://www.instagram.com/bouchantoufzakaria/)
+
+[Discord Server](https://discord.gg/78sFzGe8P5)
 
 ---
 

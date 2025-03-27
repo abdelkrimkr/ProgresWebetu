@@ -9,9 +9,9 @@ complexity:
 
 naming:
   FunctionNaming:
-    ignoreAnnotated:
-      - "Composable"
-      - "Preview"
+     ignoreAnnotated:
+        - "Composable"
+        - "Preview"
   MatchingDeclarationName:
     active: false
   PackageNaming:
