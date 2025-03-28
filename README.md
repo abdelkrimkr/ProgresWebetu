@@ -46,7 +46,7 @@ WEBETU is an innovative mobile application designed to enhance the student exper
 
 ## 🚀 Technical Specifications
 
-- **Platform**: Pure Android Project
+- **Platform**: Android + JVM ( desktop ) 
 - **Programming Language**: Kotlin
 - **UI Framework**: Jetpack Compose
 - **Architecture**: MVVM (Model-View-ViewModel)
@@ -68,7 +68,7 @@ The primary goal of WEBETU is to simplify and streamline the student experience 
 We welcome contributions, especially from:
 - Those familiar with the following technologies:
     - Kotlin
-    - Android Development
+    - KMP developement
     - Jetpack Compose
     - MVVM / MVI Architecture
   
