@@ -7,6 +7,15 @@
 
 WEBETU is an innovative mobile application designed to enhance the student experience in Algerian universities. This comprehensive student portal serves as a centralized platform, bringing together essential services and information crucial for student life.
 
+
+<p align="center">
+  <a href="https://discord.gg/78sFzGe8P5">
+    <img alt="Discord" src="https://img.shields.io/badge/Discord-Join%20Us-7289da?logo=discord&logoColor=white&color=7289da"/>
+  </a>
+</p>
+
+
+
 ## Images Overview
 
 <img src=".github/assets/Screenshot%202025-03-26%20190318.png" alt="Description" >
