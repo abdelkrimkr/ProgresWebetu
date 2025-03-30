@@ -23,7 +23,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App() {
         val rootNavController = rememberNavController()
         WebetuTheme(
-            darkTheme = false
+            darkTheme = false ,
         ) {
             Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                 NavigationHost(

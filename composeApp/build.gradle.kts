@@ -60,9 +60,12 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.coroutines.core)
 
-
-            // db
             implementation(libs.navigation.compose)
+            // db
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
+
+
 
             //utils
             api(libs.arrow.core)
@@ -81,6 +84,7 @@ kotlin {
             implementation(libs.ktor.client.cio)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+
 
 
 
@@ -117,13 +121,21 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+
 }
 
 dependencies {
     debugImplementation(compose.uiTooling)
     implementation(libs.kotlinx.coroutines.android)
+    ksp(libs.room.compiler)
+
 
 }
+
+
+
+
 
 compose.desktop {
     application {
@@ -134,7 +146,22 @@ compose.desktop {
             packageName = "com.zako.webetu"
             packageVersion = "1.0.0"
         }
+
+        application {
+            buildTypes.release.proguard {
+                configurationFiles.from(project.file("progaurd.pro"))
+            }
+        }
     }
 }
+
+
+
+
+
+
+
+
+
 
 
