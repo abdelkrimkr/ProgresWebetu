@@ -25,10 +25,10 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build Android APK
-      run: ./gradlew :composeApp:androidApp:assembleDebug
+      run: ./gradlew :composeApp:assembleDebug
 
     - name: Build Desktop Executable
-      run: ./gradlew :composeApp:desktopApp:assemble
+      run: ./gradlew :desktop:packageDistributionForCurrentOS
 
     - uses: actions/upload-artifact@v4
       with:
