@@ -1,0 +1,75 @@
+name: KMP Build Desktop App
+description: 'Build the desktop application for all platforms'
+author: 'Mifos Initiative'
+branding:
+  icon: 'play'
+  color: 'orange'
+
+inputs:
+  desktop_package_name:
+    description: 'Name of the desktop project module'
+    required: true
+
+  build_type:
+    description: 'Type of build to perform (Debug or Release)'
+    required: false
+    default: 'Debug'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Java development environment
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+
+    # Cache Gradle dependencies and build outputs to speed up future builds
+    - name: Cache Gradle and build outputs
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+          build
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle-
+
+    - name: Package Desktop App
+      shell: bash
+      run: |
+        # Determine the package command based on build type
+        if [[ "${{ inputs.build_type }}" == "Release" ]]; then
+          ./gradlew packageReleaseDistributionForCurrentOS
+        else
+          ./gradlew packageDistributionForCurrentOS
+        fi
+
+    # Upload Windows executables
+    - name: Upload Windows Apps
+      if: matrix.os == 'windows-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: desktop-app-${{ matrix.os }}
+        path: |
+          **/*.exe
+          **/*.msi
+
+    # Upload Linux package
+    - name: Upload Linux App
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: desktop-app-${{ matrix.os }}
+        path: '**/*.deb'
+
+    # Upload MacOS package
+    - name: Upload MacOS App
+      if: matrix.os == 'macos-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: desktop-app-${{ matrix.os }}
+        path: '**/*.dmg'
