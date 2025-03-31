@@ -1,7 +1,7 @@
 package com.zako.webetu
 
 
-import com.zako.webetu.database.Database
+import com.zako.webetu.database.AppDatabase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -22,7 +22,7 @@ actual val ktorModule = module {
     }
 }
 actual val databaseModule : Module = module {
-    single<Database>{
+    single<AppDatabase>{
         getAppDatabaseBuilder(
             context = get()
         ).getWebetuInstance()

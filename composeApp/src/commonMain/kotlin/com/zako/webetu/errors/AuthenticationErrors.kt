@@ -5,6 +5,7 @@ import webetu.composeapp.generated.resources.Res
 import webetu.composeapp.generated.resources.authentication_error
 import webetu.composeapp.generated.resources.bad_request_error
 import webetu.composeapp.generated.resources.bad_response_error
+import webetu.composeapp.generated.resources.no_default_user
 
 sealed class AuthenticationErrors(
     override var errorMessage: BaseString?,
@@ -23,6 +24,12 @@ sealed class AuthenticationErrors(
 
     data class AuthenticationException(
         override var errorMessage: BaseString? = BaseString.ResString(Res.string.authentication_error),
+        override var error: Throwable?
+    ) : AuthenticationErrors(errorMessage = errorMessage, error)
+
+    // no default user
+    data class NoDefaultUserException(
+        override var errorMessage: BaseString? = BaseString.ResString(Res.string.no_default_user),
         override var error: Throwable?
     ) : AuthenticationErrors(errorMessage = errorMessage, error)
 }
