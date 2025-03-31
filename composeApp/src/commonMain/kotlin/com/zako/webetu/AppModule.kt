@@ -10,3 +10,4 @@ import org.koin.dsl.module
 
 
 expect val ktorModule : Module
+expect val databaseModule : Module

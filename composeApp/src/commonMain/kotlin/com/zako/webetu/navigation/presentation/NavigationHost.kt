@@ -4,7 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import com.zako.webetu.navigation.model.AppGraph
 import com.zako.webetu.navigation.model.Login
+import com.zako.webetu.navigation.model.HomeScreen
 
 @Composable
 fun NavigationHost(
@@ -13,9 +17,15 @@ fun NavigationHost(
 ) {
     NavHost(
         modifier = modifier,
-        startDestination = Login,
+        startDestination = Login ,
         navController = rootNavController
     ) {
-        loginGraph()
+        loginGraph(rootNavController)
+        navigation<AppGraph>(
+            startDestination = HomeScreen,
+        ){
+            homeGraph(rootNavController)
+        }
+
     }
 }
