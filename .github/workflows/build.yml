@@ -1,75 +1,40 @@
-name: KMP Build Desktop App
-description: 'Build the desktop application for all platforms'
-author: 'Mifos Initiative'
-branding:
-  icon: 'play'
-  color: 'orange'
+name: Build & Publish Release APK
 
-inputs:
-  desktop_package_name:
-    description: 'Name of the desktop project module'
-    required: true
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: { }
 
-  build_type:
-    description: 'Type of build to perform (Debug or Release)'
-    required: false
-    default: 'Debug'
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-runs:
-  using: 'composite'
-  steps:
-    - name: Set up Java development environment
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: set up JDK 17
       uses: actions/setup-java@v4
       with:
-        distribution: 'zulu'
         java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
 
-    # Cache Gradle dependencies and build outputs to speed up future builds
-    - name: Cache Gradle and build outputs
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-          build
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: ${{ runner.os }}-gradle-
-
-    - name: Package Desktop App
-      shell: bash
-      run: |
-        # Determine the package command based on build type
-        if [[ "${{ inputs.build_type }}" == "Release" ]]; then
-          ./gradlew packageReleaseDistributionForCurrentOS
-        else
-          ./gradlew packageDistributionForCurrentOS
-        fi
-
-    # Upload Windows executables
-    - name: Upload Windows Apps
-      if: matrix.os == 'windows-latest'
-      uses: actions/upload-artifact@v4
-      with:
-        name: desktop-app-${{ matrix.os }}
-        path: |
-          **/*.exe
-          **/*.msi
-
-    # Upload Linux package
-    - name: Upload Linux App
-      if: matrix.os == 'ubuntu-latest'
-      uses: actions/upload-artifact@v4
-      with:
-        name: desktop-app-${{ matrix.os }}
-        path: '**/*.deb'
-
-    # Upload MacOS package
-    - name: Upload MacOS App
-      if: matrix.os == 'macos-latest'
-      uses: actions/upload-artifact@v4
-      with:
-        name: desktop-app-${{ matrix.os }}
-        path: '**/*.dmg'
+  build_desktop:
+     name: Build Desktop App
+     strategy:
+        matrix:
+           os: [ ubuntu-latest, macos-latest, windows-latest ]
+     runs-on: ${{ matrix.os }}
+     steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+          
+        - name: Build Desktop App
+          uses: openMF/kmp-build-desktop-app-action@v1.0.0
+          with:
+            desktop_package_name: 'myapp'
