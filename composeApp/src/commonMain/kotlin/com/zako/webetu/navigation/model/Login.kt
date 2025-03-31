@@ -9,5 +9,5 @@ object Login : Destination
 data object AppGraph : Destination
 
 @Serializable
-data object MainScreen : Destination
+data object HomeScreen : Destination
 

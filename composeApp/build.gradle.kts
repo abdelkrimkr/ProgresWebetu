@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.room.gradle.plugin)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.detekt )
 }
 
 room {
@@ -56,9 +57,11 @@ kotlin {
             implementation(libs.androidx.material)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(compose.material3AdaptiveNavigationSuite)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.coroutines.core)
+
 
             implementation(libs.navigation.compose)
             // db
@@ -155,6 +158,12 @@ compose.desktop {
     }
 }
 
+
+detekt{
+
+    // compose
+    config.setFrom((files("$rootDir/config/detekt/detekt.yml")))
+}
 
 
 
