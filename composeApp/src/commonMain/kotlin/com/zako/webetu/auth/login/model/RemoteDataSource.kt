@@ -1,6 +1,7 @@
 package com.zako.webetu.auth.login.model
 
 import arrow.core.Either
+import com.zako.webetu.auth.user.model.UserAuth
 import com.zako.webetu.errors.AppError
 
 interface RemoteDataSource {
@@ -11,5 +12,5 @@ interface RemoteDataSource {
      * @return Either<AppError , LoginResponse> the response of the login or the error
      *
      */
-    suspend fun login(registrationNumber: String, password: String): Either<AppError, LoginResponse>
+    suspend fun login(registrationNumber: String, password: String): Either<AppError, UserAuth>
 }

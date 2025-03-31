@@ -29,6 +29,7 @@
     <string name="password_visibility_icon">password visibility icon</string>
     <string name="progress_brand_banner">progress brand banner</string>
     <string name="no_default_user">No Default User</string>
+    <string name="login_successful">Login Successful</string>
 
 
 </resources>

@@ -4,3 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 object Login : Destination
+
+@Serializable
+data object AppGraph : Destination
+
+@Serializable
+data object MainScreen : Destination
+

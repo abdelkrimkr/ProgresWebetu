@@ -92,6 +92,7 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
         }
     }
 }
@@ -129,7 +130,6 @@ dependencies {
     debugImplementation(compose.uiTooling)
     implementation(libs.kotlinx.coroutines.android)
     ksp(libs.room.compiler)
-
 
 }
 

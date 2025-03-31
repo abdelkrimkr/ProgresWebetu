@@ -5,8 +5,8 @@ import arrow.core.flatMap
 import arrow.core.left
 import com.zako.webetu.auth.login.data.LoginConstants
 import com.zako.webetu.auth.login.model.LoginRequestBody
-import com.zako.webetu.auth.login.model.LoginResponse
 import com.zako.webetu.auth.login.model.RemoteDataSource
+import com.zako.webetu.auth.user.model.UserAuth
 import com.zako.webetu.errors.AppError
 import com.zako.webetu.errors.AuthenticationErrors
 import com.zako.webetu.errors.ConnectionErrors
@@ -29,7 +29,7 @@ class RemoteDataSourceImpl(
     override suspend fun login(
         registrationNumber: String,
         password: String
-    ): Either<AppError, LoginResponse> {
+    ): Either<AppError, UserAuth> {
         return client.safeCall {
             val url = LoginConstants.LOGIN_ENDPOINT
             val body = LoginRequestBody(
@@ -43,7 +43,7 @@ class RemoteDataSourceImpl(
         }.flatMap { response: HttpResponse ->
             when (response.status.value) {
                 HttpStatusCode.OK.value -> {
-                    response.parseResponse<LoginResponse>()
+                    response.parseResponse<UserAuth>()
                 }
                 HttpStatusCode.Forbidden.value -> {
                     AuthenticationErrors.AuthenticationException(

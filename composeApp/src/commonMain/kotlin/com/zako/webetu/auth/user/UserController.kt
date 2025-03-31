@@ -4,7 +4,10 @@ import arrow.core.Either
 import com.zako.webetu.auth.user.model.UserAuth
 import com.zako.webetu.auth.user.model.UserRepository
 import com.zako.webetu.errors.AppError
+import com.zako.webetu.notification.snackbare.SnackbarController
+import com.zako.webetu.utils.asString
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import org.koin.core.component.inject
 
 /**
@@ -17,15 +20,28 @@ import org.koin.core.component.inject
  * @author B.zakaria
  */
 object UserController : KoinComponent {
-    private val userRepository: UserRepository by inject<UserRepository>()
+
+    private val userRepository: UserRepository = get()
 
 
-    suspend fun getUserAuth() : Either<AppError , UserAuth>{
+    suspend fun getUserAuth() : UserAuth? {
        return userRepository.getUserAuth()
+           .onLeft { error ->
+               SnackbarController.simpleSnackbar(error.errorMessage?.asString() ?: "Failed to get the user ")
+           }
+           .getOrNull()
     }
 
-    suspend fun saveUserAuth(user: UserAuth) : Either<AppError , Boolean>{
-        return userRepository.saveUserAuth(user)
+
+    suspend fun saveUserAuth(user: UserAuth) : Boolean{
+        val job = userRepository
+            .saveUserAuth(user)
+            .onLeft {
+                SnackbarController.simpleSnackbar(it.errorMessage?.asString() ?: "Failed to save the user")
+            }
+            .getOrNull()
+        return job == true
+
     }
 
 

@@ -5,5 +5,7 @@ sealed interface LoginScreenActions {
     data class PasswordChange(val password: String) : LoginScreenActions
     data object ShowPasswordClicked : LoginScreenActions
     data object HidePasswordClicked : LoginScreenActions
-    data object LoginClicked : LoginScreenActions
+    data class LoginClicked(
+        val navigateAction : () -> Unit,
+    ) : LoginScreenActions
 }

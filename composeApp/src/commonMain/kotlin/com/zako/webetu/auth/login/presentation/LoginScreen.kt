@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -62,7 +63,9 @@ import webetu.composeapp.generated.resources.registration_number
 import webetu.composeapp.generated.resources.student_portal
 
 @Composable
-fun LoginScreenRoot() {
+fun LoginScreenRoot(
+    navigateToMainScreen: () -> Unit,
+) {
     val loginScreenViewModel = koinViewModel<LoginScreenViewModel>()
     val state by loginScreenViewModel.state.collectAsState()
 
@@ -85,7 +88,9 @@ fun LoginScreenRoot() {
             loginScreenViewModel.action(LoginScreenActions.HidePasswordClicked)
         },
         onLoginClick = {
-            loginScreenViewModel.action(LoginScreenActions.LoginClicked)
+            loginScreenViewModel.action(LoginScreenActions.LoginClicked(
+                navigateAction = navigateToMainScreen
+            ))
         }
     )
 }
@@ -307,6 +312,39 @@ private fun NetworkSquaresEffect(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
+            .drawBehind {
+                val canvasWidth = size.width
+                val canvasHeight = size.height
+
+                val squaresSize = canvasWidth / squaresCount
+
+                val horizontalSquaresCount = canvasWidth / squaresSize
+                val verticalSquaresCount = canvasHeight / horizontalSquaresCount
+
+                // Draw horizontal lines
+                for (i in 0..horizontalSquaresCount.toInt()) {
+                    val x = i * squaresSize
+
+                    drawLine(
+                        color = squaresColor,
+                        start = Offset(x, 0f),
+                        end = Offset(x, canvasHeight),
+                        strokeWidth = linesWight
+                    )
+                }
+
+                // Draw vertical lines
+                for (i in 0..verticalSquaresCount.toInt()) {
+                    val y = i * squaresSize
+
+                    drawLine(
+                        color = squaresColor,
+                        start = Offset(0f, y),
+                        end = Offset(canvasWidth, y),
+                        strokeWidth = linesWight
+                    )
+                }
+            }
     ) {
         Image(
             modifier = Modifier
@@ -315,39 +353,6 @@ private fun NetworkSquaresEffect(
             painter = painterResource(Res.drawable.light_login_effect),
             contentDescription = null
         )
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val canvasWidth = size.width
-            val canvasHeight = size.height
-
-            val squaresSize = canvasWidth / squaresCount
-
-            val horizontalSquaresCount = canvasWidth / squaresSize
-            val verticalSquaresCount = canvasHeight / horizontalSquaresCount
-
-            // Draw horizontal lines
-            for (i in 0..horizontalSquaresCount.toInt()) {
-                val x = i * squaresSize
-
-                drawLine(
-                    color = squaresColor,
-                    start = Offset(x, 0f),
-                    end = Offset(x, canvasHeight),
-                    strokeWidth = linesWight
-                )
-            }
-
-            // Draw vertical lines
-            for (i in 0..verticalSquaresCount.toInt()) {
-                val y = i * squaresSize
-
-                drawLine(
-                    color = squaresColor,
-                    start = Offset(0f, y),
-                    end = Offset(canvasWidth, y),
-                    strokeWidth = linesWight
-                )
-            }
-        }
         Column(
             modifier = Modifier.fillMaxSize()
         ) {

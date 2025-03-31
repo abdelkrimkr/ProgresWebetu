@@ -3,13 +3,20 @@ package com.zako.webetu.auth.login.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zako.webetu.auth.login.model.RemoteDataSource
+import com.zako.webetu.auth.user.UserController
+import com.zako.webetu.notification.snackbare.SnackbarController
+import com.zako.webetu.utils.AppMain
+import com.zako.webetu.utils.asString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.getString
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
+import webetu.composeapp.generated.resources.Res
+import webetu.composeapp.generated.resources.login_successful
 
 class LoginScreenViewModel(
     private val remote: RemoteDataSource
@@ -39,7 +46,8 @@ class LoginScreenViewModel(
             is LoginScreenActions.LoginClicked -> {
                 login(
                     _state.value.registrationNumber,
-                    _state.value.password
+                    _state.value.password ,
+                    action.navigateAction
                 )
             }
         }
@@ -47,7 +55,8 @@ class LoginScreenViewModel(
 
     fun login(
         registrationNumber: String,
-        password: String
+        password: String,
+        navigationAction : () -> Unit,
     ) {
 
         if (registrationNumber.isBlank() or password.isBlank()) {
@@ -66,15 +75,19 @@ class LoginScreenViewModel(
             )
 
             result
-                .onRight { loginResponse ->
-                    println("login successfully")
-                    println("userID : ${loginResponse.userId}")
+                .onRight { userAuth ->
+                    val message = getString(Res.string.login_successful)
+                    UserController.saveUserAuth(userAuth)
+                    SnackbarController.simpleSnackbar(
+                        message = message
+                    )
+                    withContext(Dispatchers.AppMain) {
+                        navigationAction()
+                    }
                 }
                 .onLeft { appError ->
-                    println("login fail")
-//                    appError.errorMessage?.asString(context)?.let {
-//                        context.shortIoToast(it)
-//                    }
+                    val message = appError.errorMessage?.asString()
+                    SnackbarController.simpleSnackbar(message = message ?: "Login failed !")
                 }
 
             _state.update {
